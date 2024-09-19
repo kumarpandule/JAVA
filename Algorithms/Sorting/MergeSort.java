@@ -1,4 +1,3 @@
-
 public class MergeSort {
     public static void conquer(int arr[], int staticIdx, int mid, int endingIdx){
         int merge[] = new int[endingIdx - staticIdx + 1];
