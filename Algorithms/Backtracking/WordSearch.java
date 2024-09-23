@@ -81,6 +81,6 @@ public class WordSearch {
         {'A','D','E','E'}
         };
         String word = "ABCCED";
-        System.out.print(exist(board, word));;
+        System.out.print(exist(board, word));
     }
 }
