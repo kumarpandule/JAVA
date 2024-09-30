@@ -2,8 +2,43 @@
 import java.util.HashMap;
 
 public class MinWindowSubstring {
-
     // Function to find the minimum window substring
+    // Optimized code with Array
+    public static String minWindowOptimized(String s, String t){
+        if(s == null || t == null || s.length() == 0 || t.length() == 0 || s.length() < t.length()) return new String();
+
+        int minLen = Integer.MAX_VALUE;
+        int startingIdx = 0;
+        int uniqueCharCount = t.length();
+        int windowStart = 0;
+        int windowEnd = 0;
+
+        int[] map = new int[128];
+        for(char ch : t.toCharArray()){
+            map[ch]++;
+        }
+
+        while(windowEnd < s.length()){
+
+            if(map[s.charAt(windowEnd++)]-- > 0){
+                uniqueCharCount--;
+            }
+
+            while(uniqueCharCount == 0){
+                if(windowEnd - windowStart < minLen){
+                    startingIdx = windowStart;
+                    minLen = windowEnd - windowStart;
+                }
+
+                if(map[s.charAt(windowStart++)]++ == 0){
+                    uniqueCharCount++;
+                }
+            }
+        }
+        return minLen == Integer.MAX_VALUE ? new String() : s.substring(startingIdx, startingIdx + minLen);
+    }
+
+    // Optimized code with HashMap
     public static String minWindow(String s, String t){
         HashMap<Character, Integer> tClone = new HashMap<>();
 
@@ -60,6 +95,7 @@ public class MinWindowSubstring {
         String s = "ADOBECODEBANC";
         String t = "ABC";
         System.out.println(minWindow(s, t)); // Expected output: "BANC"
+        System.out.println(minWindowOptimized(s, t));
     }
 }
 
