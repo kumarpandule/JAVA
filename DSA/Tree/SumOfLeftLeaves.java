@@ -1,4 +1,4 @@
-public class SumOfNodes {
+public class SumOfLeftLeaves {
 
     public int idx = -1;
 
@@ -27,23 +27,35 @@ public class SumOfNodes {
         return newNode;
     }
 
-    public int sumOfNodes(TreeNode root){
+    public int getSum(TreeNode root, boolean isLeftLeafe){
+        if(root.left == null && root.right == null){
+            System.out.print(root.val + " ");
+            return (isLeftLeafe) ? root.val : 0;
+        }
+        int sum = 0;
+        if(root.left != null){
+            sum += getSum(root.left, true);
+        }
+        if(root.right != null){
+            sum += getSum(root.right, false);
+        }
+
+        return sum;
+    }
+
+    public int sumOfLeftLeave(TreeNode root){
         if(root == null){
             return 0;
         }
 
-        int leftLeave  = sumOfNodes(root.left);
-        int rightLeave = sumOfNodes(root.right);
-
-        return leftLeave + rightLeave + root.val;
+        return getSum(root, false);
     }
 
     public static void main(String args[]){
-        SumOfNodes t = new SumOfNodes();
         int nodes[] = {3,9,20,-1,-1,15,7};
+        SumOfLeftLeaves t = new SumOfLeftLeaves();
 
         TreeNode root = t.buildTree(nodes);
-        System.out.println(t.sumOfNodes(root));
-
+        System.out.println(t.sumOfLeftLeave(root));
     }
 }
