@@ -48,6 +48,11 @@ public class LevelOrderTree {
                     q.add(null);
                 }
             }else{
+                if(currentNode.left == null && currentNode.right == null){
+                    System.out.print("");
+                }else {
+                    System.out.print("  ");
+                }
                 System.out.print(currentNode.val + " ");
                 if(currentNode.left != null){
                     q.add(currentNode.left);
@@ -60,7 +65,7 @@ public class LevelOrderTree {
     }
 
     public static void main(String args[]){
-        int nodes[] = {1,2,4,-1,-1,5,-1,-1,3,-1,6,-1};
+        int nodes[] = {3,9,-1,-1,20,15,-1,-1,7,-1};
         LevelOrderTree t = new LevelOrderTree();
         TreeNode root = t.buildTree(nodes);
         t.levelOrder(root);

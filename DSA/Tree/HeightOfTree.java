@@ -1,14 +1,12 @@
-
-public class SumOfNodes {
+public class HeightOfTree {
 
     public int idx = -1;
-
     public class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;
 
-        TreeNode(int val){
+        TreeNode(int val) {
             this.val = val;
             this.left = null;
             this.right = null;
@@ -17,7 +15,7 @@ public class SumOfNodes {
 
     public TreeNode buildTree(int nodes[]){
         idx++;
-        if(nodes.length <= idx || nodes[idx] == -1){
+        if(idx >= nodes.length || nodes[idx] == -1){
             return null;
         }
 
@@ -28,23 +26,23 @@ public class SumOfNodes {
         return newNode;
     }
 
-    public int sumOfNodes(TreeNode root){
+    public int heightOfTree(TreeNode root){
         if(root == null){
             return 0;
         }
+        int leftHeight = heightOfTree(root.left);
+        int rightHeight = heightOfTree(root.right);
 
-        int leftLeave  = sumOfNodes(root.left);
-        int rightLeave = sumOfNodes(root.right);
+        int treeHeight = Math.max(leftHeight, rightHeight) + 1;
 
-        return leftLeave + rightLeave + root.val;
+        return treeHeight;
     }
 
     public static void main(String args[]){
-        SumOfNodes t = new SumOfNodes();
-        int nodes[] = {3,9,-1,-1,20,15,-1,-1,7,-1};
+        int nodes[] = {1,2,4,-1,-1,5,-1,-1,3,-1,6,-1};
+        HeightOfTree t = new HeightOfTree();
 
         TreeNode root = t.buildTree(nodes);
-        System.out.println(t.sumOfNodes(root));
-
+        System.out.println(t.heightOfTree(root));
     }
 }
