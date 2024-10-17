@@ -1,7 +1,5 @@
 public class BinarySearchTree {
 
-    static int count = 0;
-
     static class TreeNode {
         int val;
         TreeNode left;
@@ -14,7 +12,66 @@ public class BinarySearchTree {
         }
     }
 
-    
+    static TreeNode inorderSuccessor(TreeNode root){
+        while(root.left != null){
+            root = root.left;
+        }
+
+        return root;
+    }
+
+    static TreeNode delete(TreeNode root, int val){
+        if(root.val > val){
+            root.left = delete(root.left, val);
+        } else if(root.val < val){
+            root.right = delete(root.right, val);
+        } else {
+            // case 1
+            if(root.left == null && root.right == null){
+                return null;
+            }
+
+            // case 2
+            if(root.left == null){
+                return root.right;
+            }else if(root.right == null){
+                return root.left;
+            }
+
+            // case 3
+            TreeNode IS = inorderSuccessor(root.right);
+            root.val = IS.val;
+            root.right = delete(root.right, IS.val);
+
+        }
+
+        return root;
+    }
+
+    static void search(TreeNode root, int key){
+        if(root == null){
+            System.out.println("Not Fount!");
+            return;
+        }
+        if(root.val > key){
+            search(root.right, key);
+        } else if(root.val == key){
+            System.out.println(key + " Found!");
+        } else{
+            search(root.right, key);
+        }
+
+    }
+
+    static void inorder(TreeNode root){
+        if(root == null){
+            return;
+        }
+        inorder(root.left);
+        System.out.print(root.val + " ");
+        inorder(root.right);
+    }
+
     static TreeNode insert(TreeNode root, int val){
         if(root == null){
             root = new TreeNode(val);
@@ -30,31 +87,7 @@ public class BinarySearchTree {
         return root;
     }
 
-    static TreeNode kthSmallest(TreeNode root, int k)
-    {
-        // base case
-        if (root == null)
-            return null;
-
-        // search in left subtree
-        TreeNode left = kthSmallest(root.left, k);
-
-        // if k'th smallest is found in left subtree, return it
-        if (left != null)
-            return left;
-
-        // if current element is k'th smallest, return it
-        count++;
-        if (count == k)
-            return root;
-
-        // else search in right subtree
-        return kthSmallest(root.right, k);
-    }
-
     public static void main(String args[]){
-        int n = 7;
-        int k = 3;
         int values[] = {5,3,6,2,4,1,7};
         TreeNode root = null;
 
@@ -62,9 +95,13 @@ public class BinarySearchTree {
             root = insert(root, val);
         }
 
-        
-        // Reset count before calling kthSmallest
-        count = 0;
-        System.out.println(kthSmallest(root, k).val);
+        inorder(root);
+
+        System.out.println();
+        search(root, 5);
+
+        delete(root, 7);
+
+        inorder(root);
     }
 }
